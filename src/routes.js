@@ -2,11 +2,12 @@ import React from "react";
 
 import { Icon } from "@chakra-ui/react";
 import {
-  MdBarChart,
-  MdPerson,
-  MdHome,
-  MdLock,
-  MdOutlineShoppingCart,
+  MdDashboard,          
+  MdOutlineShoppingCart, 
+  MdMonetizationOn,     
+  MdGroup,              
+  MdBarChart,           
+  MdTrendingUp,         
 } from "react-icons/md";
 
 // Admin Imports
@@ -21,7 +22,7 @@ const routes = [
     name: "Main Dashboard",
     layout: "/admin",
     path: "/default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdDashboard} width='20px' height='20px' color='inherit' />,
     component: MainDashboard,
   },
   {
@@ -30,7 +31,7 @@ const routes = [
     path: "/MyStrategies",
     icon: (
       <Icon
-        as={MdOutlineShoppingCart}
+        as={MdTrendingUp} // Updated icon for strategies
         width='20px'
         height='20px'
         color='inherit'
@@ -42,7 +43,7 @@ const routes = [
   {
     name: "Rewards",
     layout: "/admin",
-    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdMonetizationOn} width='20px' height='20px' color='inherit' />,
     path: "/Rewards",
     component: Rewards,
   },
@@ -50,14 +51,14 @@ const routes = [
     name: "Available Pools",
     layout: "/admin",
     path: "/AvailablePools",
-    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdGroup} width='20px' height='20px' color='inherit' />,
     component: AvailablePools,
   },
   {
     name: "Pool Analytics",
     layout: "/admin",
     path: "/PoolAnalytics",
-    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
     component: PoolAnalytics,
   },
 ];

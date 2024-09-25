@@ -32,7 +32,6 @@ export default function UserReports() {
   gap='20px'
   mb='20px'>
   
-  {/* Total Liquidity Provided */}
   <MiniStatistics
     startContent={
       <IconBox

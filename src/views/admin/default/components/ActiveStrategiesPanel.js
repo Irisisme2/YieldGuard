@@ -30,7 +30,7 @@ import btc from "assets/img/icons/btc.png";
 import ltc from "assets/img/icons/ltc.png";
 import ada from "assets/img/icons/ada.png";
 import dot from "assets/img/icons/dot.png";
-import usdc from "assets/img/icons/usdc.png"; // USDC strategy image import
+import usdc from "assets/img/icons/usdc.png"; 
 import Card from 'components/card/Card.js';
 
 // Sample data for strategies
