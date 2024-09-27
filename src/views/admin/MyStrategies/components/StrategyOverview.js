@@ -142,73 +142,115 @@ const StrategyOverview = () => {
 
   const handleImageClick = (strategy) => {
     setSelectedStrategy(strategy);
-    setEditName(strategy.name); // Set initial name for editing
+    setEditName(strategy.name);
     onOpen();
   };
 
   const handlePauseStrategy = () => {
+    if (!selectedStrategy) return; // Early exit if no strategy selected
+
     setLoading(true);
     setTimeout(() => {
-      const updatedStrategies = strategiesData.map(strategy => {
-        if (strategy.id === selectedStrategy.id) {
-          return { ...strategy, status: "Paused" };
-        }
-        return strategy;
-      });
-      setStrategiesData(updatedStrategies);
-      toast({
-        title: "Strategy Paused",
-        description: `${selectedStrategy.name} has been paused.`,
-        status: "info",
-        duration: 5000,
-        isClosable: true,
-      });
-      onClose();
-      setLoading(false);
+      try {
+        const updatedStrategies = strategiesData.map(strategy => {
+          if (strategy.id === selectedStrategy.id) {
+            return { ...strategy, status: "Paused" };
+          }
+          return strategy;
+        });
+        setStrategiesData(updatedStrategies);
+        toast({
+          title: "Strategy Paused",
+          description: `${selectedStrategy.name} has been paused.`,
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (error) {
+        console.error("Error pausing strategy:", error);
+        toast({
+          title: "Error",
+          description: "Failed to pause the strategy.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } finally {
+        setLoading(false);
+        onClose();
+      }
     }, 1000);
   };
 
   const handleStopStrategy = () => {
+    if (!selectedStrategy) return; // Early exit if no strategy selected
+
     setLoading(true);
     setTimeout(() => {
-      const updatedStrategies = strategiesData.map(strategy => {
-        if (strategy.id === selectedStrategy.id) {
-          return { ...strategy, status: "Stopped" };
-        }
-        return strategy;
-      });
-      setStrategiesData(updatedStrategies);
-      toast({
-        title: "Strategy Stopped",
-        description: `${selectedStrategy.name} has been stopped.`,
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-      });
-      onClose();
-      setLoading(false);
+      try {
+        const updatedStrategies = strategiesData.map(strategy => {
+          if (strategy.id === selectedStrategy.id) {
+            return { ...strategy, status: "Stopped" };
+          }
+          return strategy;
+        });
+        setStrategiesData(updatedStrategies);
+        toast({
+          title: "Strategy Stopped",
+          description: `${selectedStrategy.name} has been stopped.`,
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (error) {
+        console.error("Error stopping strategy:", error);
+        toast({
+          title: "Error",
+          description: "Failed to stop the strategy.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } finally {
+        setLoading(false);
+        onClose();
+      }
     }, 1000);
   };
 
   const handleEditStrategy = () => {
+    if (!selectedStrategy || !editName.trim()) return; // Early exit if no strategy selected or name is empty
+
     setLoading(true);
     setTimeout(() => {
-      const updatedStrategies = strategiesData.map(strategy => {
-        if (strategy.id === selectedStrategy.id) {
-          return { ...strategy, name: editName };
-        }
-        return strategy;
-      });
-      setStrategiesData(updatedStrategies);
-      toast({
-        title: "Strategy Edited",
-        description: `${selectedStrategy.name} has been renamed to ${editName}.`,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      onClose();
-      setLoading(false);
+      try {
+        const updatedStrategies = strategiesData.map(strategy => {
+          if (strategy.id === selectedStrategy.id) {
+            return { ...strategy, name: editName };
+          }
+          return strategy;
+        });
+        setStrategiesData(updatedStrategies);
+        toast({
+          title: "Strategy Edited",
+          description: `${selectedStrategy.name} has been renamed to ${editName}.`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (error) {
+        console.error("Error editing strategy:", error);
+        toast({
+          title: "Error",
+          description: "Failed to edit the strategy.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } finally {
+        setLoading(false);
+        onClose();
+      }
     }, 1000);
   };
 
@@ -253,11 +295,13 @@ const StrategyOverview = () => {
   };
 
   const handleCheckboxChange = (strategyId) => {
-    if (selectedStrategies.includes(strategyId)) {
-      setSelectedStrategies(selectedStrategies.filter(id => id !== strategyId));
-    } else {
-      setSelectedStrategies([...selectedStrategies, strategyId]);
-    }
+    setSelectedStrategies(prevState => {
+      if (prevState.includes(strategyId)) {
+        return prevState.filter(id => id !== strategyId);
+      } else {
+        return [...prevState, strategyId];
+      }
+    });
   };
 
   const areAllSelected = filteredStrategies.length === selectedStrategies.length;
@@ -272,128 +316,127 @@ const StrategyOverview = () => {
   }, []);
 
   return (
-    <Card p="4" shadow="md" borderWidth="1px" >
-    <Box p={5}>
-      <Text fontSize="2xl" mb={4}>Strategy Overview</Text>
-      <Flex mb={4} justify="space-between" align="center">
-        <Input
-          placeholder="Search Strategies"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          width="200px"
-        />
-        <Flex>
-          <Select onChange={(e) => setFilter(e.target.value)} value={filter}>
-            <option value="All">All</option>
-            <option value="Active">Active</option>
-            <option value="Paused">Paused</option>
-            <option value="Stopped">Stopped</option>
-          </Select>
-          <Select onChange={(e) => setSortBy(e.target.value)} value={sortBy} ml={2}>
-            <option value="Name">Name</option>
-            <option value="Yield">Current Yield</option>
-            <option value="Liquidity">Liquidity Amount</option>
-          </Select>
-          <IconButton 
-            onClick={downloadCSV} 
-            icon={<FaFileCsv />} 
-            aria-label="Download CSV" 
-            ml={2}
+    <Card p="4" shadow="md" borderWidth="1px">
+      <Box p={5}>
+        <Text fontSize="2xl" mb={4}>Strategy Overview</Text>
+        <Flex mb={4} justify="space-between" align="center">
+          <Input
+            placeholder="Search Strategies"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            width="200px"
           />
+          <Flex>
+            <Select onChange={(e) => setFilter(e.target.value)} value={filter}>
+              <option value="All">All</option>
+              <option value="Active">Active</option>
+              <option value="Paused">Paused</option>
+              <option value="Stopped">Stopped</option>
+            </Select>
+            <Select onChange={(e) => setSortBy(e.target.value)} value={sortBy} ml={2}>
+              <option value="Name">Name</option>
+              <option value="Yield">Current Yield</option>
+              <option value="Liquidity">Liquidity Amount</option>
+            </Select>
+            <IconButton 
+              onClick={downloadCSV} 
+              icon={<FaFileCsv />} 
+              aria-label="Download CSV" 
+              ml={2}
+            />
+          </Flex>
         </Flex>
-      </Flex>
-      {loadingData ? (
-        <Spinner />
-      ) : (
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>
-                <Checkbox 
-                  isChecked={areAllSelected}
-                  onChange={() => {
-                    if (areAllSelected) {
-                      setSelectedStrategies([]);
-                    } else {
-                      setSelectedStrategies(filteredStrategies.map(strategy => strategy.id));
-                    }
-                  }}
-                />
-              </Th>
-              <Th>Strategy Name</Th>
-              <Th>Status</Th>
-              <Th>Liquidity Amount</Th>
-              <Th>Current Yield</Th>
-              <Th>Impermanent Loss</Th>
-              <Th>Rewards Earned</Th>
-              <Th>Actions</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {filteredStrategies.map(strategy => (
-              <Tr key={strategy.id}>
-                <Td>
+        {loadingData ? (
+          <Spinner />
+        ) : (
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>
                   <Checkbox 
-                    isChecked={selectedStrategies.includes(strategy.id)}
-                    onChange={() => handleCheckboxChange(strategy.id)}
+                    isChecked={areAllSelected}
+                    onChange={() => {
+                      setSelectedStrategies(areAllSelected ? [] : filteredStrategies.map(strategy => strategy.id));
+                    }}
                   />
-                </Td>
-                <Td>
-                  <Flex align="center">
-                    <Image src={strategy.image} boxSize="40px" mr={2} />
-                    {strategy.name}
-                  </Flex>
-                </Td>
-                <Td>{strategy.status}</Td>
-                <Td>{strategy.liquidityAmount}</Td>
-                <Td>{strategy.currentYield}</Td>
-                <Td>{strategy.impermanentLoss}</Td>
-                <Td>{strategy.rewardsEarned}</Td>
-                <Td>
-                  <IconButton 
-                    icon={<MdEdit />} 
-                    onClick={() => handleImageClick(strategy)} 
-                    aria-label="Edit Strategy" 
-                    mr={2} 
-                  />
-                  <IconButton 
-                    icon={<MdPause />} 
-                    onClick={handlePauseStrategy} 
-                    aria-label="Pause Strategy" 
-                    mr={2} 
-                  />
-                  <IconButton 
-                    icon={<MdStop />} 
-                    onClick={handleStopStrategy} 
-                    aria-label="Stop Strategy" 
-                  />
-                </Td>
+                </Th>
+                <Th>Strategy Name</Th>
+                <Th>Status</Th>
+                <Th>Liquidity Amount</Th>
+                <Th>Current Yield</Th>
+                <Th>Impermanent Loss</Th>
+                <Th>Rewards Earned</Th>
+                <Th>Actions</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      )}
+            </Thead>
+            <Tbody>
+              {filteredStrategies.map((strategy) => (
+                <Tr key={strategy.id}>
+                  <Td>
+                    <Checkbox 
+                      isChecked={selectedStrategies.includes(strategy.id)}
+                      onChange={() => handleCheckboxChange(strategy.id)}
+                    />
+                  </Td>
+                  <Td>
+                    <Flex align="center">
+                      <Image src={strategy.image} alt={strategy.name} boxSize="30px" mr={2} />
+                      <Text>{strategy.name}</Text>
+                    </Flex>
+                  </Td>
+                  <Td>{strategy.status}</Td>
+                  <Td>{strategy.liquidityAmount}</Td>
+                  <Td>{strategy.currentYield}</Td>
+                  <Td>{strategy.impermanentLoss}</Td>
+                  <Td>{strategy.rewardsEarned}</Td>
+                  <Td>
+                    <IconButton
+                      icon={<MdEdit />}
+                      aria-label="Edit Strategy"
+                      onClick={() => handleImageClick(strategy)}
+                    />
+                    <IconButton
+                      icon={<MdPause />}
+                      aria-label="Pause Strategy"
+                      onClick={handlePauseStrategy}
+                      isDisabled={strategy.status === "Paused"}
+                    />
+                    <IconButton
+                      icon={<MdStop />}
+                      aria-label="Stop Strategy"
+                      onClick={handleStopStrategy}
+                      isDisabled={strategy.status === "Stopped"}
+                    />
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        )}
+      </Box>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Edit Strategy</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text mb={2}>Edit the strategy name:</Text>
-            <Input 
+            <Text mb={2}>Edit Strategy Name</Text>
+            <Input
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
+              placeholder="Enter new strategy name"
             />
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleEditStrategy}>Save</Button>
-            <Button onClick={onClose} ml={2}>Cancel</Button>
+            <Button onClick={handleEditStrategy} colorScheme="blue" mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
-        </Card>
-
+    </Card>
   );
 };
 
