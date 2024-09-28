@@ -5,25 +5,37 @@
 
 ## 🔑 Key Features
 
+![adsz23.png](https://cdn.dorahacks.io/static/files/1922b7375a430ce5174ec5e4853a7819.png)
+
 ### 1. 📈 Dynamic Liquidity Management
 - **Automated Adjustments**: YieldGuard continuously analyzes market conditions. 📊 It dynamically adjusts liquidity allocations to ensure optimal positioning within the liquidity pool. 🌊
 - **Historical Data Analysis**: By utilizing the Brevis ZK-Coprocessor, the system can access and analyze historical data. 📚 This enables it to predict market trends and proactively adjust strategies. 🔍
+
+
 
 ### 2. ⚠️ Impermanent Loss Mitigation
 - **Real-Time Monitoring**: The system actively monitors price movements. 📉 It also keeps track of liquidity provisions to minimize impermanent loss for LPs. 📈
 - **Analytics and Alerts**: LPs receive real-time alerts regarding potential impermanent loss scenarios. 🔔 This helps them make informed decisions. 🧠
 
+![pools.png](https://cdn.dorahacks.io/static/files/1923662f527daf514923fbc46908ade0.png)
+
 ### 3. 🎉 Incentivization Program
 - **Tiered Rewards**: LPs are rewarded for maintaining liquidity during volatile periods. 🎁 This is facilitated through a tiered rewards system, offering bonus tokens based on liquidity duration and amount. 💰
 - **Lockup Incentives**: Users can lock their liquidity for specified periods to gain higher yields. ⏳ This promotes long-term engagement. 💪
+
+![yieksd.png](https://cdn.dorahacks.io/static/files/19235c893d85f49360566564264a03c5.png)
 
 ### 4. 📊 Exclusive Analytics Dashboard
 - **Real-Time Insights**: A comprehensive dashboard built with React.js provides LPs with real-time analytics on their liquidity positions. 📈 It also shows potential impermanent loss and projected returns. 💹
 - **Data Visualizations**: Utilize libraries like Chart.js or D3.js to create interactive visualizations of historical performance and predictive analytics. 📊
 
+![analutics.png](https://cdn.dorahacks.io/static/files/1923662a22e8f6297df1b4744a7a4115.png)
+
 ### 5. 🛠️ Customizable Strategies
 - **Personalized Experience**: Users can customize their liquidity management strategies according to their risk appetite and yield expectations. 🎨
 - **Strategy Templates**: Offer pre-defined templates for common liquidity strategies. 📑 This makes it easy for users to select and adapt their approaches. ⚙️
+
+![yieksd.png](https://cdn.dorahacks.io/static/files/19235c7c50f9507b0226b9b47f6b9bbe.png)
 
 ## ⚙️ Technical Implementation
 
@@ -66,4 +78,4 @@ In the long term, YieldGuard aspires to:
 YieldGuard will enhance the PancakeSwap ecosystem by maximizing LP returns. 📈 It will incentivize deeper liquidity provision. 💧 By addressing key pain points, this solution has the potential to improve user experience and retention on the platform. 🌟 This aligns perfectly with the objectives of the PancakeSwap v4 Hookathon. 🎉
 
 ## ✨ Conclusion
-With its innovative features and clear focus on maximizing liquidity while minimizing risks, **YieldGuard** is poised to make a significant impact in the DeFi space. 🌍 
+With its innovative features and clear focus on maximizing liquidity while minimizing risks, **YieldGuard** is poised to make a significant impact in the DeFi space. 🌍

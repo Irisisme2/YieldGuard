@@ -22,20 +22,10 @@
 
 // Chakra imports
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import DevelopmentTable from "views/admin/PoolAnalytics/components/DevelopmentTable";
-import CheckTable from "views/admin/PoolAnalytics/components/CheckTable";
-import ColumnsTable from "views/admin/PoolAnalytics/components/ColumnsTable";
-import ComplexTable from "views/admin/PoolAnalytics/components/ComplexTable";
-import {
-  columnsDataDevelopment,
-  columnsDataCheck,
-  columnsDataColumns,
-  columnsDataComplex,
-} from "views/admin/PoolAnalytics/variables/columnsData";
-import tableDataDevelopment from "views/admin/PoolAnalytics/variables/tableDataDevelopment.json";
-import tableDataCheck from "views/admin/PoolAnalytics/variables/tableDataCheck.json";
-import tableDataColumns from "views/admin/PoolAnalytics/variables/tableDataColumns.json";
-import tableDataComplex from "views/admin/PoolAnalytics/variables/tableDataComplex.json";
+import PoolMetricsTable from "views/admin/PoolAnalytics/components/PoolMetricsTable";
+import PoolPerformanceGraphs from "views/admin/PoolAnalytics/components/PoolPerformanceGraphs";
+import ImpermanentLossAnalysis  from "views/admin/PoolAnalytics/components/ImpermanentLossAnalysis ";
+import FeeStructureOverview from "views/admin/PoolAnalytics/components/FeeStructureOverview";
 import React from "react";
 
 export default function Settings() {
@@ -46,19 +36,10 @@ export default function Settings() {
         mb='20px'
         columns={{ sm: 1, md: 2 }}
         spacing={{ base: "20px", xl: "20px" }}>
-        <DevelopmentTable
-          columnsData={columnsDataDevelopment}
-          tableData={tableDataDevelopment}
-        />
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <ColumnsTable
-          columnsData={columnsDataColumns}
-          tableData={tableDataColumns}
-        />
-        <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
-        />
+        <PoolMetricsTable/>
+        <PoolPerformanceGraphs/>
+        <ImpermanentLossAnalysis/>
+        <FeeStructureOverview/>
       </SimpleGrid>
     </Box>
   );
